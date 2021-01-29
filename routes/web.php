@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,13 @@ Route::get('/web',[WebController::class,'index']);
 Route::get('/web/delete/{id}',[WebController::class,'delete'])->name('web_delete');
 Route::get('/web/crete',[WebController::class,'create'])->name('web_create');
 Route::post('/web/crete',[WebController::class,'store'])->name('web_store');
+
+
+
+Route::get('/settings',[SettingsController::class,'index']);
+Route::get('/settings/delete/{id}',[SettingsController::class,'delete'])->name('settings_delete');
+Route::get('/settings/create',[SettingsController::class,'create'])->name('settings_create');
+Route::post('/settings/create',[SettingsController::class,'store'])->name('settings_store');
 
 
 
