@@ -54,7 +54,6 @@ class ModuleController extends Controller
         $module=Module::find($id);
 
         if(!empty($module)){
-
             DB::beginTransaction();
             try{
                 Artisan::call("migrate:reset --path=/app/Modules/{$module->module_name}/database/migrations/");
@@ -70,8 +69,6 @@ class ModuleController extends Controller
             }catch (\Exception $e){
                 DB::rollback();
             }
-
-
         }
         }
 
