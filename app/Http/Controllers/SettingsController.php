@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Validator;
 class SettingsController extends Controller
 {
     public function index(){
-        return view('settings.index');
+        $settings=Setting::with(['web','module'])->get();
+        return view('settings.index',compact('settings'));
     }
 
 
@@ -23,12 +24,26 @@ class SettingsController extends Controller
     }
 
     public function store(Request $request){
-        Validator::make($request->all(),Setting::$creaateRules,Setting::$errorMsg)->validate();
+        $data=$request->all();
+        Validator::make($data,Setting::$creaateRules,Setting::$errorMsg)->validate();
+        $module=Module::where('id','=',$data['module_id'])->first();
+        $data['module_name']=$module->module_name;
 
-        Setting::create($request->all());
-
+        Setting::create($data);
         $request->session()->flash('success_settings','SETTINGS IS CREATED');
         return redirect()->back();
+    }
 
+
+    public function delete($id){
+        if($id>0){
+            $setting=Setting::find($id);
+
+            if(!empty($setting)){
+                $setting->delete();
+                return redirect()->back();
+            }
+
+        }
     }
 }

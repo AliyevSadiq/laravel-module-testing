@@ -25,6 +25,7 @@
         <tr>
             <td>{{$module->module_name}}</td>
             <td>
+                <a href="{{route('module_settings',['id'=>$module->id])}}">SETTINGS</a> |
                 <a href="{{route('delete',['id'=>$module->id])}}">DELETE</a>
             </td>
         </tr>

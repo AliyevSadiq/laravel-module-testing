@@ -16,8 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/module', [ModuleController::class,'index']);
+Route::get('/module', [ModuleController::class,'index'])->name('module_list');
 Route::get('/module/delete/{id}', [ModuleController::class,'delete'])->name('delete');
+Route::get('/module/setting/{id}', [ModuleController::class,'setting'])->name('module_settings');
+Route::put('/module/setting/', [ModuleController::class,'moduleSetting'])->name('module_settings_store');
 Route::get('/module/create', [ModuleController::class,'create'])->name('create_module_form');
 Route::post('/module/create', [ModuleController::class,'store'])->name('create_module');
 
@@ -31,7 +33,7 @@ Route::post('/web/crete',[WebController::class,'store'])->name('web_store');
 
 
 
-Route::get('/settings',[SettingsController::class,'index']);
+Route::get('/settings',[SettingsController::class,'index'])->name('settings_list');
 Route::get('/settings/delete/{id}',[SettingsController::class,'delete'])->name('settings_delete');
 Route::get('/settings/create',[SettingsController::class,'create'])->name('settings_create');
 Route::post('/settings/create',[SettingsController::class,'store'])->name('settings_store');

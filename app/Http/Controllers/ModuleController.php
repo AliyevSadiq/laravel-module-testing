@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Module;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -53,6 +54,7 @@ class ModuleController extends Controller
         if($id>0){
         $module=Module::find($id);
 
+
         if(!empty($module)){
             DB::beginTransaction();
             try{
@@ -63,6 +65,7 @@ class ModuleController extends Controller
                     return 'error';
                 }else{
                     $module->delete();
+                    Setting::where('module_id','=',$id)->delete();
                 }
                 DB::commit();
                 return  redirect('/module');
@@ -71,9 +74,33 @@ class ModuleController extends Controller
             }
         }
         }
+    }
 
 
+    public function setting($id) {
+        if($id>0){
+            $module_settings=Setting::where('module_id','=',$id)->with('web')->get();
 
+            if(!empty($module_settings)){
+               return view('modules.settings',compact('module_settings'));
+            }
+    }
+    }
+
+    public function moduleSetting(Request $request){
+           $data=$request->all();
+           Validator::make($data,Setting::$addSettingToModule,Setting::$errorMsg)->validate();
+
+
+             for($i=0;$i<count($data['field_name']);$i++){
+                 Setting::where('field_name', '=', $data['field_name'][$i])->update(['field_value'=>$data['field_value'][$i]]);
+             }
+        $request->session()->flash('success_setting_module','THESE SETTING PARAMETERS ADDED FOR THIS MODULE');
+
+     return redirect('/module');
 
     }
+
+
+
 }

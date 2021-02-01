@@ -24,6 +24,10 @@ class Module extends Model
         'module_name'=>'required'
     ];
 
+
+
+
+
     public static function deleteDir($dirPath) {
         if (! is_dir($dirPath)) {
             throw new \Exception("$dirPath must be a directory");
